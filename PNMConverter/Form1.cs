@@ -36,7 +36,7 @@ namespace PNMConverter
             }
             else {
                 System.Drawing.Bitmap b = new System.Drawing.Bitmap(textBoxPath.Text);
-                StringBuilder ppm = processImage(b);
+                StringBuilder ppm = convertImageToPPM(b);
                 using (System.IO.StreamWriter outfile = new System.IO.StreamWriter(textBoxPath.Text + ".ppm"))
                 {
                     outfile.Write(ppm.ToString());
@@ -45,7 +45,7 @@ namespace PNMConverter
             }
         }
 
-        private StringBuilder processImage(System.Drawing.Bitmap bmp) {
+        private StringBuilder convertImageToPPM(System.Drawing.Bitmap bmp) {
             StringBuilder res = new StringBuilder();
             res.AppendLine("P3");
             res.AppendLine(bmp.Width + " " + bmp.Height);
@@ -62,6 +62,39 @@ namespace PNMConverter
                         res.Append(" ");
                     }
                     res.Append(red + " " + green + " " + blue);
+                }
+                res.AppendLine();
+            }
+            return res;
+        }
+        
+        private StringBuilder convertImageToPGM(System.Drawing.Bitmap bmp, String channel) {
+            StringBuilder res = new StringBuilder();
+            res.AppendLine("P2");
+            res.AppendLine(bmp.Width + " " + bmp.Height);
+            res.AppendLine("255");
+            for (int y = 0; y < bmp.Height; y++)
+            {
+                for (int x = 0; x < bmp.Width; x++)
+                {
+                    Color clr = bmp.GetPixel(x, y);
+                    int red = clr.R;
+                    int green = clr.G;
+                    int blue = clr.B;
+                    if (x > 0) {
+                        res.Append(" ");
+                    }
+                    switch (channel) {
+                    	case "red":
+                            res.Append(red);
+                        case "green":
+                            res.Append(green);
+                    	case "blue":
+                            res.Append(blue);
+                    	default:
+                            res.Append( ((red + green + blue) / 3).ToString() );
+                    }
+                    
                 }
                 res.AppendLine();
             }
