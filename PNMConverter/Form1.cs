@@ -94,7 +94,33 @@ namespace PNMConverter
                     	default:
                             res.Append( ((red + green + blue) / 3).ToString() );
                     }
-                    
+                }
+                res.AppendLine();
+            }
+            return res;
+        }
+        
+        private StringBuilder convertImageToPBM(System.Drawing.Bitmap bmp) {
+            StringBuilder res = new StringBuilder();
+            res.AppendLine("P1");
+            res.AppendLine(bmp.Width + " " + bmp.Height);
+            for (int y = 0; y < bmp.Height; y++)
+            {
+                for (int x = 0; x < bmp.Width; x++)
+                {
+                    Color clr = bmp.GetPixel(x, y);
+                    int red = clr.R;
+                    int green = clr.G;
+                    int blue = clr.B;
+                    if (x > 0) {
+                        res.Append(" ");
+                    }
+                    if((red + green + blue) / 3) < (255 / 2)) {
+                        res.Append("0");
+                    }
+                    else {
+                        res.Append("1");
+                    }
                 }
                 res.AppendLine();
             }
