@@ -36,10 +36,26 @@ namespace PNMConverter
             }
             else {
                 System.Drawing.Bitmap b = new System.Drawing.Bitmap(textBoxPath.Text);
-                StringBuilder ppm = convertImageToPPM(b);
-                using (System.IO.StreamWriter outfile = new System.IO.StreamWriter(textBoxPath.Text + ".ppm"))
+                StringBuilder pnm;
+                String extension;
+                switch (comboBoxFileType.SelectedItem.ToString()) {
+                    case "PGM":
+                        pnm = convertImageToPGM(b, comboBoxColorChannel.Text);
+                        extension = ".pgm";
+                        break;
+                    case "PBM":
+                        pnm = convertImageToPBM(b);
+                        extension = ".pbm";
+                        break;
+                    default:
+                        pnm = convertImageToPPM(b);
+                        extension = ".ppm";
+                        break;
+                }
+
+                using (System.IO.StreamWriter outfile = new System.IO.StreamWriter(textBoxPath.Text + extension))
                 {
-                    outfile.Write(ppm.ToString());
+                    outfile.Write(pnm.ToString());
                 }
                 MessageBox.Show("Done");
             }
@@ -85,14 +101,18 @@ namespace PNMConverter
                         res.Append(" ");
                     }
                     switch (channel) {
-                    	case "red":
+                    	case "Red":
                             res.Append(red);
-                        case "green":
+                            break;
+                        case "Green":
                             res.Append(green);
-                    	case "blue":
+                            break;
+                    	case "Blue":
                             res.Append(blue);
+                            break;
                     	default:
                             res.Append( ((red + green + blue) / 3).ToString() );
+                            break;
                     }
                 }
                 res.AppendLine();
@@ -115,7 +135,7 @@ namespace PNMConverter
                     if (x > 0) {
                         res.Append(" ");
                     }
-                    if((red + green + blue) / 3) < (255 / 2)) {
+                    if(((red + green + blue) / 3) < (255 / 2)) {
                         res.Append("0");
                     }
                     else {
@@ -125,6 +145,23 @@ namespace PNMConverter
                 res.AppendLine();
             }
             return res;
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            comboBoxFileType.Text = "PPM";
+            comboBoxColorChannel.SelectedIndex = 0;
+        }
+
+        private void comboBoxFileType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxFileType.SelectedItem.ToString() == "PGM")
+            {
+                comboBoxColorChannel.Show();
+            }
+            else {
+                comboBoxColorChannel.Hide();
+            }
         }
     }
 }

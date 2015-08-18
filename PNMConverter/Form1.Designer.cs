@@ -33,6 +33,8 @@
             this.buttonBrowse = new System.Windows.Forms.Button();
             this.buttonConvert = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.comboBoxFileType = new System.Windows.Forms.ComboBox();
+            this.comboBoxColorChannel = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // textBoxPath
@@ -63,7 +65,7 @@
             // 
             // buttonConvert
             // 
-            this.buttonConvert.Location = new System.Drawing.Point(177, 60);
+            this.buttonConvert.Location = new System.Drawing.Point(319, 60);
             this.buttonConvert.Name = "buttonConvert";
             this.buttonConvert.Size = new System.Drawing.Size(82, 34);
             this.buttonConvert.TabIndex = 3;
@@ -75,17 +77,46 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // comboBoxFileType
+            // 
+            this.comboBoxFileType.FormattingEnabled = true;
+            this.comboBoxFileType.Items.AddRange(new object[] {
+            "PPM",
+            "PGM",
+            "PBM"});
+            this.comboBoxFileType.Location = new System.Drawing.Point(12, 68);
+            this.comboBoxFileType.Name = "comboBoxFileType";
+            this.comboBoxFileType.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxFileType.TabIndex = 4;
+            this.comboBoxFileType.SelectedIndexChanged += new System.EventHandler(this.comboBoxFileType_SelectedIndexChanged);
+            // 
+            // comboBoxColorChannel
+            // 
+            this.comboBoxColorChannel.FormattingEnabled = true;
+            this.comboBoxColorChannel.Items.AddRange(new object[] {
+            "All channels",
+            "Red",
+            "Green",
+            "Blue"});
+            this.comboBoxColorChannel.Location = new System.Drawing.Point(139, 68);
+            this.comboBoxColorChannel.Name = "comboBoxColorChannel";
+            this.comboBoxColorChannel.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxColorChannel.TabIndex = 5;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(426, 106);
+            this.Controls.Add(this.comboBoxColorChannel);
+            this.Controls.Add(this.comboBoxFileType);
             this.Controls.Add(this.buttonConvert);
             this.Controls.Add(this.buttonBrowse);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBoxPath);
             this.Name = "Form1";
             this.Text = "PpmConverter";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -98,6 +129,8 @@
         private System.Windows.Forms.Button buttonBrowse;
         private System.Windows.Forms.Button buttonConvert;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.ComboBox comboBoxFileType;
+        private System.Windows.Forms.ComboBox comboBoxColorChannel;
     }
 }
 
